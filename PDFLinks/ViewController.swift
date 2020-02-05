@@ -35,7 +35,7 @@ class ViewController: NSViewController
         else { return }
 
         // Parse PDF into JSON.
-        PDFParser.parse(url: pdfFileURL, into: jsonFileURL)
+        PDFParser.parse(pdfUrl: pdfFileURL, into: jsonFileURL)
                 
         // Write.
         pdfDocument.write(toFile: pdfFileURL.path)

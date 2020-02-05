@@ -17,25 +17,12 @@ class PDFParser
     /// Undocumented enumeration case stands for `Object` type (sourced from an expection thrown).
     static let CGPDFObjectTypeObject: CGPDFObjectType = CGPDFObjectType(rawValue: 77696)!
            
-    
-    static func parse(url: URL, into jsonURL: URL)
+    /// Parse a PDF file into a JSON file.
+    static func parse(pdfUrl: URL, into jsonURL: URL)
     {
-        // Document.
-        guard
-            let document = CGPDFDocument(url as CFURL),
-            let catalog = document.catalog,
-            let info = document.info
-        else { return print("Cannot open PDF.") }
-        
-        // Parse.
-        let pdf = [
-            "Catalog" : PDFParser.value(from: catalog),
-            "Info" : PDFParser.value(from: info)
-        ]
-        
-        // Write JSON.
         do
         {
+            let pdf = PDFParser.parse(pdfUrl: pdfUrl)
             let data = try JSONSerialization.data(withJSONObject: pdf, options: .prettyPrinted)
             try data.write(to: jsonURL, options: [])
         }
@@ -43,31 +30,52 @@ class PDFParser
         { print(error) }
     }
     
-    static func value(from object: CGPDFObjectRef) -> NSObject
+    /// Parse a PDF file into a JSON file.
+    static func parse(pdfUrl: URL) -> [String:Any?]
+    {
+        // Document.
+        guard
+            let document = CGPDFDocument(pdfUrl as CFURL),
+            let catalog = document.catalog,
+            let info = document.info
+            else
+        {
+            print("Cannot open PDF.")
+            return [:]
+        }
+        
+        // Parse.
+        return [
+            "Catalog" : PDFParser.value(from: catalog),
+            "Info" : PDFParser.value(from: info)
+        ]
+    }
+    
+    static func value(from object: CGPDFObjectRef) -> Any?
     {
         switch (CGPDFObjectGetType(object))
         {
             case .null:
                 
-                return NSNull()
+                return nil
             
             case .boolean:
 
                 var valueRef: CGPDFBoolean = 0
                 if CGPDFObjectGetValue(object, .boolean, &valueRef)
-                { return NSNumber(value: valueRef) }
+                { return Bool(valueRef == 0x01) }
             
             case .integer:
             
                 var valueRef: CGPDFInteger = 0
                 if CGPDFObjectGetValue(object, .integer, &valueRef)
-                { return NSNumber(value: valueRef) }
+                { return valueRef as Int }
                 
             case .real:
             
                 var valueRef: CGPDFReal = 0.0
                 if CGPDFObjectGetValue(object, .real, &valueRef)
-                { return NSNumber(value: Double(valueRef as CGFloat)) }
+                { return Double(valueRef) }
             
             case .name:
                 
@@ -75,7 +83,7 @@ class PDFParser
                 if
                     CGPDFObjectGetValue(object, .name, &objectRefOrNil),
                     let objectRef = objectRefOrNil,
-                    let string = NSString(cString: objectRef, encoding: String.Encoding.isoLatin1.rawValue)
+                    let string = String(cString: objectRef, encoding: String.Encoding.isoLatin1)
                 { return string }
             
             case .string:
@@ -84,8 +92,8 @@ class PDFParser
                 if
                     CGPDFObjectGetValue(object, .string, &objectRefOrNil),
                     let objectRef = objectRefOrNil,
-                    let string = CGPDFStringCopyTextString(OpaquePointer(objectRef))
-                { return string }
+                    let stringRef = CGPDFStringCopyTextString(OpaquePointer(objectRef))
+                { return stringRef as String }
             
             case .array:
                 
@@ -94,20 +102,16 @@ class PDFParser
                     CGPDFObjectGetValue(object, .array, &arrayRefOrNil),
                     let arrayRef = arrayRefOrNil
                 {
-                    let array: NSMutableArray = NSMutableArray()
-                    
+                    var array: [Any] = []
                     for index in 0 ..< CGPDFArrayGetCount(arrayRef)
                     {
                         var eachObjectRef: CGPDFObjectRef? = nil
                         if
                             CGPDFArrayGetObject(arrayRef, index, &eachObjectRef),
-                            let eachObject = eachObjectRef
-                        {
+                            let eachObject = eachObjectRef,
                             let eachValue = PDFParser.value(from: eachObject)
-                            array.add(eachValue)
-                        }
+                        { array.append(eachValue) }
                     }
-                    
                     return array
                 }
             
@@ -121,7 +125,7 @@ class PDFParser
                     var format = CGPDFDataFormat.raw
                     if
                         let streamData: CFData = CGPDFStreamCopyData(streamRef, &format),
-                        let streamDataString = NSString(data: NSData(data: streamData as Data) as Data, encoding: String.Encoding.utf8.rawValue)
+                        let streamDataString = String(data: NSData(data: streamData as Data) as Data, encoding: String.Encoding.utf8)
                     { return streamDataString }
                 }
                 
@@ -132,28 +136,29 @@ class PDFParser
                     CGPDFObjectGetValue(object, .dictionary, &dictionaryRefOrNil),
                     let dictionaryRef = dictionaryRefOrNil
                 {
-                    var dictionary: NSMutableDictionary = NSMutableDictionary()
+                    var dictionary = NSMutableDictionary()
                     Self.collectObjects(from: dictionaryRef, into: &dictionary)
-                    return dictionary
+                    return dictionary as! [String: Any?]
                 }
             
             case CGPDFObjectTypeObject:
             
-                var dictionary: NSMutableDictionary = NSMutableDictionary()
+                var dictionary = NSMutableDictionary()
                 Self.collectObjects(from: object, into: &dictionary)
-                return dictionary
+                return dictionary as! [String: Any?]
                         
             @unknown default:
                 
-                return NSNull()
+                return nil
         }
         
         // No known case.
-        return NSNull()
+        return nil
     }
     
     static func collectObjects(from dictionaryRef: CGPDFDictionaryRef, into dictionaryPointer: UnsafeMutableRawPointer?)
     {
+        
         CGPDFDictionaryApplyFunction(
             dictionaryRef,
             {
@@ -161,22 +166,38 @@ class PDFParser
 
                 // Unwrap dictionary.
                 guard let dictionary = eachContextOrNil?.assumingMemoryBound(to: NSMutableDictionary.self).pointee
-                else { return }
+                else
+                {
+                    print("Could not unwrap dictionary.")
+                    return
+                }
                 
-                // Key.
+                // Unwrap key.
                 guard let eachKey = String(cString: UnsafePointer<CChar>(eachKeyPointer), encoding: .isoLatin1)
-                else { return }
+                else
+                {
+                    print("Could not unwrap key.")
+                    return
+                }
 
-                // Value.
-                let eachValue = (eachKey == "Parent")
-                    ? NSString("<PARENT_NOT_SERIALIZED>")
-                    : PDFParser.value(from: eachObject)
+                // Skip parent.
+                guard eachKey != "Parent"
+                else
+                {
+                    dictionary.setObject("<PARENT_NOT_SERIALIZED>", forKey: eachKey as NSString)
+                    return
+                }
+                    
+                // Parse value.
+                guard let eachValue = PDFParser.value(from: eachObject)
+                else
+                {
+                    dictionary.setObject("<COULD_NOT_PARSE>", forKey: eachKey as NSString)
+                    return
+                }
                 
                 // Set.
-                dictionary.setObject(
-                    eachValue,
-                    forKey: eachKey as NSString
-                )
+                dictionary.setObject(eachValue, forKey: eachKey as NSString)
             },
             dictionaryPointer
         )
