@@ -17,6 +17,26 @@ class PDFParser
     /// Undocumented enumeration case stands for `Object` type (sourced from an expection thrown).
     static let CGPDFObjectTypeObject: CGPDFObjectType = CGPDFObjectType(rawValue: 77696)!
            
+    /// Shorthand for type strings.
+    static let namesForTypes: [CGPDFObjectType:String] =
+    [
+        .null : "Null",
+        .boolean : "Boolean",
+        .integer : "Integer",
+        .real : "Real",
+        .name : "Name",
+        .string : "String",
+        .array : "Array",
+        .dictionary : "Dictionary",
+        .stream : "Stream",
+        CGPDFObjectTypeObject : "Object",
+    ]
+    
+    struct Message
+    {
+        static let couldNotSerializeData = "<COULD_NOT_SERIALIZE_DATA>"
+    }
+    
     /// Parse a PDF file into a JSON file.
     static func parse(pdfUrl: URL, into jsonURL: URL)
     {
@@ -116,17 +136,34 @@ class PDFParser
                 }
             
             case .stream:
-            
+                
                 var streamRefOrNil: CGPDFStreamRef? = nil
                 if
                     CGPDFObjectGetValue(object, .stream, &streamRefOrNil),
-                    let streamRef = streamRefOrNil
+                    let streamRef = streamRefOrNil,
+                    let streamDictionaryRef = CGPDFStreamGetDictionary(streamRef)
                 {
-                    var format = CGPDFDataFormat.raw
-                    if
-                        let streamData: CFData = CGPDFStreamCopyData(streamRef, &format),
-                        let streamDataString = String(data: NSData(data: streamData as Data) as Data, encoding: String.Encoding.utf8)
-                    { return streamDataString }
+                    // Get stream dictionary.
+                    var streamNSMutableDictionary = NSMutableDictionary()
+                    Self.collectObjects(from: streamDictionaryRef, into: &streamNSMutableDictionary)
+                    var streamDictionary = streamNSMutableDictionary as! [String: Any?]
+                    
+                    // Get data.
+                    var dataString: String?
+                    var streamDataFormat: CGPDFDataFormat = .raw
+                    if let streamData: CFData = CGPDFStreamCopyData(streamRef, &streamDataFormat)
+                    {
+                        switch streamDataFormat
+                        {
+                            case .raw: dataString = String(data: NSData(data: streamData as Data) as Data, encoding: String.Encoding.utf8)
+                            case .jpegEncoded, .JPEG2000: dataString = NSData(data: streamData as Data).base64EncodedString()
+                        }
+                    }
+                    
+                    // Add to dictionary.
+                    streamDictionary["Data"] = dataString
+                    
+                    return streamDictionary
                 }
                 
             case .dictionary:
@@ -166,25 +203,24 @@ class PDFParser
 
                 // Unwrap dictionary.
                 guard let dictionary = eachContextOrNil?.assumingMemoryBound(to: NSMutableDictionary.self).pointee
-                else
-                {
-                    print("Could not unwrap dictionary.")
-                    return
-                }
+                else { return print("Could not unwrap dictionary.") }
                 
                 // Unwrap key.
                 guard let eachKey = String(cString: UnsafePointer<CChar>(eachKeyPointer), encoding: .isoLatin1)
-                else
-                {
-                    print("Could not unwrap key.")
-                    return
-                }
+                else { return print("Could not unwrap key.") }
+                
+                // Type.
+                guard let eachTypeName = PDFParser.namesForTypes[CGPDFObjectGetType(eachObject)]
+                else { return print("Could not unwrap type.") }
+                
+                // Assemble.
+                let eachDictionaryKey = "\(eachKey)<\(eachTypeName)>" as NSString
 
                 // Skip parent.
                 guard eachKey != "Parent"
                 else
                 {
-                    dictionary.setObject("<PARENT_NOT_SERIALIZED>", forKey: eachKey as NSString)
+                    dictionary.setObject("<PARENT_NOT_SERIALIZED>", forKey: eachDictionaryKey)
                     return
                 }
                     
@@ -192,12 +228,13 @@ class PDFParser
                 guard let eachValue = PDFParser.value(from: eachObject)
                 else
                 {
-                    dictionary.setObject("<COULD_NOT_PARSE>", forKey: eachKey as NSString)
-                    return
+                    dictionary.setObject("<COULD_NOT_PARSE_VALUE>, \(CGPDFObjectGetType(eachObject).rawValue)", forKey: eachDictionaryKey)
+                    fatalError("😭")
+                    // return
                 }
                 
                 // Set.
-                dictionary.setObject(eachValue, forKey: eachKey as NSString)
+                dictionary.setObject(eachValue, forKey: eachDictionaryKey)
             },
             dictionaryPointer
         )
