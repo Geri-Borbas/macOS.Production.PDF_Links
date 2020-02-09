@@ -2,20 +2,98 @@ import UIKit
 import Foundation
 
 
+// MARK: - Extensions
+
+extension String
+{
+    
+    var entireRange: NSRange
+    { NSRange(location: 0, length: self.utf16.count) }
+    
+    func substring(with range: NSRange) -> String
+    {
+        let rangeStartIndex = self.index(self.startIndex, offsetBy: range.location)
+        let rangeEndIndex = self.index(rangeStartIndex, offsetBy: range.length)
+        let indexRange = rangeStartIndex..<rangeEndIndex
+        return String(self[indexRange])
+    }
+    
+    func write(to fileName: String) throws
+    {
+        guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        try self.write(
+            to: documentsFolder.appendingPathComponent(fileName),
+            atomically: false,
+            encoding: .utf8
+        )
+        print("`\(self.prefix(20))...` written to \(documentsFolder.appendingPathComponent(fileName)).")
+    }
+}
+
+
+// MARK: - Strings
+
+struct Constants
+{
+    
+    
+    static let originalHtmlFileName = "Original.html"
+    static let replacedHtmlFileName = "Replaced.html"
+    
+    static let bodyTemplate = "%BODY%"
+    
+    static let htmlTemplate = """
+    <html>
+    <head>
+    <style type="text/css">
+    body { color: LightGray; }
+    .match { color: black; background-color: PaleTurquoise; }
+    .group { color: black; border-top: 1px solid black; border-right: 2px solid black; }
+    .group._9 { background: #66afe3; }
+    .group._8 { background-color: #66c0ec; }
+    .group._7 { background-color: #66d2f6; }
+    .group._6 { background-color: #66e1fd; }
+    .group._5 { background-color: #66ebff; }
+    .group._4 { background-color: #66f2e7; }
+    .group._3 { background-color: #66e5c2; }
+    .group._2 { background-color: #66daa6; }
+    .group._1 { background: #66d28c; }
+    </style>
+    </head>
+    <body>
+    <pre>
+    \(Constants.bodyTemplate)
+    </pre>
+    </body>
+    </html>
+    """
+    
+    // See https://developer.apple.com/documentation/foundation/nsregularexpression#1965591
+    static let replacementTemplate =
+        "<span class=\"group _1\">$1</span>" +
+        "<span class=\"group _2\">$2</span>" +
+        "<span class=\"group _3\">$3</span>" +
+        "<span class=\"group _4\">$4</span>" +
+        "<span class=\"group _5\">$5</span>" +
+        "<span class=\"group _6\">$6</span>" +
+        "<span class=\"group _7\">$7</span>" +
+        "<span class=\"group _8\">$8</span>" +
+        "<span class=\"group _9\">$9</span>"
+}
+
+
+// MARK: - Implementation
+
 // Extract link texts with clipping rectangles.
 let pattern =
     """
 
-    (BDC)
-
-    (.*?)
-
     # Clipping Rectangle
-    (([0-9].[^\\n]+)(?=\\sre\\nW))
+    (?<ClippingRectange>[0-9].[^\\n]+\\sre\\nW)
 
-    (.*?)
+    (.+?)
 
-    (EMC)
+    (BT.+?ET)
 
     """
 
@@ -33,19 +111,28 @@ let contents = "/Layer /MC0 BDC\nq\n0 841.89 595.276 -841.89 re\nW n\n1 0 1 0 k\
 // Match.
 let matches = regex.matches(in: contents, options: [], range: contents.entireRange)
 
-// Log.
-matches.forEach
+// Enumerate matches.
+for (eachMatchIndex, eachMatch) in matches.enumerated()
 {
-    (eachMatch: NSTextCheckingResult) in
-    if let eachRange = Range(eachMatch.range, in: contents)
+    print("Match (\(eachMatchIndex))")
+    
+    // Enumerate groups.
+    (0...eachMatch.numberOfRanges - 1).forEach
     {
-        print(
-            String(
-                format: "%@: `%@`",
-                eachMatch.range.description,
-                String(contents.substring(with: eachMatch.range).prefix(20))
+        eachGroupIndex in
+   
+        let eachGroupRange = eachMatch.range(at: eachGroupIndex)
+        if let eachRangeBounds = Range(eachGroupRange, in: contents)
+        {
+            print(
+                String(
+                    format: "Group %d %@: `%@`",
+                    eachGroupIndex,
+                    eachGroupRange.description,
+                    String(contents.substring(with: eachRangeBounds).prefix(20))
+                )
             )
-        )
+        }
     }
 }
 
@@ -53,84 +140,12 @@ matches.forEach
 let body = regex.stringByReplacingMatches(in: contents, options: [], range: contents.entireRange, withTemplate: Constants.replacementTemplate)
 
 // Insert into template.
-let html = Constants.htmlTemplate.replacingOccurrences(of: Constants.bodyTemplate, with: body)
+let originalHtml = Constants.htmlTemplate.replacingOccurrences(of: Constants.bodyTemplate, with: contents)
+let replacedHtml = Constants.htmlTemplate.replacingOccurrences(of: Constants.bodyTemplate, with: body)
 
 // Write.
-try! write(html, to: Constants.htmlFileName)
+try! originalHtml.write(to: Constants.originalHtmlFileName)
+try! replacedHtml.write(to: Constants.replacedHtmlFileName)
 
 
-// MARK: - Strings
-
-struct Constants
-{
     
-    
-    static let htmlFileName = "Contents.html"
-    
-    static let bodyTemplate = "%BODY%"
-    
-    static let htmlTemplate = """
-    <html>
-    <head>
-    <style type="text/css">
-    body { color: LightGray; }
-    .match { color: black; background-color: PaleTurquoise; }
-    
-    .group1 { color: black; background-color: Red; }
-    .group2 { color: black; background-color: Green; }
-    .group3 { color: black; background-color: Blue; }
-    .group4 { color: black; background-color: Yellow; }
-    .group6 { color: black; background-color: Gray; }
-    </style>
-    </head>
-    <body>
-    <pre>
-    \(Constants.bodyTemplate)
-    </pre>
-    </body>
-    </html>
-    """
-    
-    // See https://developer.apple.com/documentation/foundation/nsregularexpression#1965591
-    static let replacementTemplate = "<span class=\"match\">$0</span>"
-}
-
-
-// MARK: - Functions
-
-func write(_ string: String, to fileName: String) throws
-{
-    guard let documentsFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-    // print(documentsFolder)
-    try string.write(
-        to: documentsFolder.appendingPathComponent(fileName),
-        atomically: false,
-        encoding: .utf8
-    )
-}
-
-
-// MARK: - Extensions
-
-extension String
-{
-    
-    var entireRange: NSRange
-    { NSRange(location: 0, length: self.utf16.count) }
-    
-    func substring(with range: NSRange) -> String
-    {
-        let rangeStartIndex = self.index(self.startIndex, offsetBy: range.location)
-        let rangeEndIndex = self.index(rangeStartIndex, offsetBy: range.length)
-        let indexRange = rangeStartIndex..<rangeEndIndex
-        return String(self[indexRange])
-    }
-}
-
-extension NSTextCheckingResult.CheckingType: Hashable
-{
-    
-    
-    public func hash(into hasher: inout Hasher)
-    { hasher.combine(self.rawValue) }
-}
