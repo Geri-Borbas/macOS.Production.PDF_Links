@@ -49,15 +49,16 @@ struct Constants
     body { color: LightGray; }
     .match { color: black; background-color: PaleTurquoise; }
     .group { color: black; border-top: 1px solid black; border-right: 2px solid black; }
-    .group._9 { background: #66afe3; }
-    .group._8 { background-color: #66c0ec; }
-    .group._7 { background-color: #66d2f6; }
-    .group._6 { background-color: #66e1fd; }
-    .group._5 { background-color: #66ebff; }
-    .group._4 { background-color: #66f2e7; }
-    .group._3 { background-color: #66e5c2; }
-    .group._2 { background-color: #66daa6; }
-    .group._1 { background: #66d28c; }
+    .group._9, .group._19 { background: #66afe3; }
+    .group._8, .group._18 { background: #66c0ec; }
+    .group._7, .group._17 { background: #66d2f6; }
+    .group._6, .group._16 { background: #66e1fd; }
+    .group._5, .group._15 { background: #66ebff; }
+    .group._4, .group._14 { background: #66f2e7; }
+    .group._3, .group._13 { background: #66e5c2; }
+    .group._2, .group._12 { background: #66daa6; }
+    .group._1, .group._11 { background: #66d28c; }
+    .group._10 { background: LightGray; }
     </style>
     </head>
     <body>
@@ -78,31 +79,51 @@ struct Constants
         "<span class=\"group _6\">$6</span>" +
         "<span class=\"group _7\">$7</span>" +
         "<span class=\"group _8\">$8</span>" +
-        "<span class=\"group _9\">$9</span>"
+        "<span class=\"group _9\">$9</span>" +
+        "<span class=\"group _10\">$10</span>" +
+        "<span class=\"group _11\">$11</span>" +
+        "<span class=\"group _12\">$12</span>" +
+        "<span class=\"group _13\">$13</span>" +
+        "<span class=\"group _14\">$14</span>" +
+        "<span class=\"group _15\">$15</span>" +
+        "<span class=\"group _16\">$16</span>" +
+        "<span class=\"group _17\">$17</span>" +
+        "<span class=\"group _18\">$18</span>"
 }
 
 
 // MARK: - Implementation
 
 // Extract link texts with clipping rectangles.
-let pattern =
+let pattern_readable =
     """
 
-    # Clipping Rectangle
-    (?<ClippingRectange>[0-9].[^\\n]+\\sre\\nW)
+    # Clipping Rectangle (x, y, width, height)
+    (?<x>\\b[-0-9\\.]+\\b)(\\s)
+    (?<y>\\b[-0-9\\.]+\\b)(\\s)
+    (?<width>\\b[-0-9\\.]+\\b)(\\s)
+    (?<height>\\b[-0-9\\.]+\\b)(\\s)
+    (re\\nW)
 
-    (.+?)
+    (.*?)
 
-    (BT.+?ET)
+    # Link Text (text)
+    (BT)
+    (.*?)
+    (Link)
+    (.*?\\n)
+    (?<text>.[^\\n]*?)(TJ\\n|Tj\\n)
+    (ET)
 
     """
+
+let pattern = "(\\b[-0-9\\.]+\\b)(\\s)(\\b[-0-9\\.]+\\b)(\\s)(\\b[-0-9\\.]+\\b)(\\s)(\\b[-0-9\\.]+\\b)(\\s)(re\\nW)(.*?)(BT)(.*?)(Link)(.*?\\n)(.[^\\n]*?)(TJ\\n|Tj\\n)(ET)"
 
 let regex = try NSRegularExpression(
-    pattern: pattern,
+    pattern: pattern_readable,
     options: [
         .dotMatchesLineSeparators,
-        .allowCommentsAndWhitespace,
-        .anchorsMatchLines
+        .allowCommentsAndWhitespace
     ])
 
 // PDF Contents.
@@ -116,23 +137,33 @@ for (eachMatchIndex, eachMatch) in matches.enumerated()
 {
     print("Match (\(eachMatchIndex))")
     
-    // Enumerate groups.
+    // Log groups.
     (0...eachMatch.numberOfRanges - 1).forEach
     {
         eachGroupIndex in
-   
-        let eachGroupRange = eachMatch.range(at: eachGroupIndex)
-        if let eachRangeBounds = Range(eachGroupRange, in: contents)
-        {
-            print(
-                String(
-                    format: "Group %d %@: `%@`",
-                    eachGroupIndex,
-                    eachGroupRange.description,
-                    String(contents.substring(with: eachRangeBounds).prefix(20))
-                )
+        logGroupRange(eachMatch.range(at: eachGroupIndex), as: "\(eachGroupIndex)", in: contents)
+    }
+    
+    // Log named groups.
+    logGroupRange(eachMatch.range(withName: "x"), as: "x", in: contents)
+    logGroupRange(eachMatch.range(withName: "y"), as: "y", in: contents)
+    logGroupRange(eachMatch.range(withName: "width"), as: "width", in: contents)
+    logGroupRange(eachMatch.range(withName: "height"), as: "height", in: contents)
+    logGroupRange(eachMatch.range(withName: "text"), as: "text", in: contents)
+}
+
+func logGroupRange(_ eachGroupRange: NSRange, as name: String, in string: String)
+{
+    if let eachRangeBounds = Range(eachGroupRange, in: string)
+    {
+        print(
+            String(
+                format: "Group %@ %@: `%@`",
+                name,
+                eachGroupRange.description,
+                String(string.substring(with: eachRangeBounds).prefix(40))
             )
-        }
+        )
     }
 }
 
