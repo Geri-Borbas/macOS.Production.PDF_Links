@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55AD49E023F246FF00E1D035 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49DF23F246FF00E1D035 /* Link.swift */; };
+		55AD49E223F2482E00E1D035 /* PDFAnnotation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */; };
+		55AD49E423F249B400E1D035 /* PageLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E323F249B400E1D035 /* PageLinks.swift */; };
+		55AD49E723F24A5C00E1D035 /* DocumentLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E623F24A5C00E1D035 /* DocumentLinks.swift */; };
+		55AD49EA23F24C1F00E1D035 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E923F24C1F00E1D035 /* String+Extensions.swift */; };
 		55B26ACC23EA64A00061821E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B26ACB23EA64A00061821E /* AppDelegate.swift */; };
 		55B26ACE23EA64A00061821E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B26ACD23EA64A00061821E /* ViewController.swift */; };
 		55B26AD023EA64A50061821E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55B26ACF23EA64A50061821E /* Assets.xcassets */; };
@@ -16,6 +21,11 @@
 
 /* Begin PBXFileReference section */
 		551F807E23EB4A3B0085DE1A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		55AD49DF23F246FF00E1D035 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
+		55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFAnnotation+Extensions.swift"; sourceTree = "<group>"; };
+		55AD49E323F249B400E1D035 /* PageLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLinks.swift; sourceTree = "<group>"; };
+		55AD49E623F24A5C00E1D035 /* DocumentLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentLinks.swift; sourceTree = "<group>"; };
+		55AD49E923F24C1F00E1D035 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		55B26AC823EA64A00061821E /* PDFLinks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFLinks.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55B26ACB23EA64A00061821E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55B26ACD23EA64A00061821E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -37,6 +47,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		55AD49E523F249FE00E1D035 /* Links */ = {
+			isa = PBXGroup;
+			children = (
+				55AD49DF23F246FF00E1D035 /* Link.swift */,
+				55AD49E323F249B400E1D035 /* PageLinks.swift */,
+				55AD49E623F24A5C00E1D035 /* DocumentLinks.swift */,
+			);
+			path = Links;
+			sourceTree = "<group>";
+		};
+		55AD49E823F24C1000E1D035 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				55AD49E923F24C1F00E1D035 /* String+Extensions.swift */,
+				55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		55AD49EB23F2533D00E1D035 /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				55B26ADB23EA74F80061821E /* ParsePDF.swift */,
+			);
+			path = Parser;
+			sourceTree = "<group>";
+		};
 		55B26ABF23EA64A00061821E = {
 			isa = PBXGroup;
 			children = (
@@ -59,7 +96,9 @@
 			children = (
 				55B26ACB23EA64A00061821E /* AppDelegate.swift */,
 				55B26ACD23EA64A00061821E /* ViewController.swift */,
-				55B26ADB23EA74F80061821E /* ParsePDF.swift */,
+				55AD49EB23F2533D00E1D035 /* Parser */,
+				55AD49E523F249FE00E1D035 /* Links */,
+				55AD49E823F24C1000E1D035 /* Extensions */,
 				55B26ACF23EA64A50061821E /* Assets.xcassets */,
 				55B26AD123EA64A50061821E /* Main.storyboard */,
 				55B26AD423EA64A50061821E /* Info.plist */,
@@ -138,9 +177,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55AD49E723F24A5C00E1D035 /* DocumentLinks.swift in Sources */,
 				55B26ACE23EA64A00061821E /* ViewController.swift in Sources */,
 				55B26ADC23EA74F80061821E /* ParsePDF.swift in Sources */,
+				55AD49EA23F24C1F00E1D035 /* String+Extensions.swift in Sources */,
 				55B26ACC23EA64A00061821E /* AppDelegate.swift in Sources */,
+				55AD49E423F249B400E1D035 /* PageLinks.swift in Sources */,
+				55AD49E023F246FF00E1D035 /* Link.swift in Sources */,
+				55AD49E223F2482E00E1D035 /* PDFAnnotation+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
