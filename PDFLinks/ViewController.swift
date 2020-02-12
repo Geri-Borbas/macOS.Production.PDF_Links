@@ -35,11 +35,20 @@ class ViewController: NSViewController
         else { return }
 
         // Parse PDF into JSON.
-        PDFParser.parse(pdfUrl: pdfFileURL, into: jsonFileURL)
-                
+        // PDFParser.parse(pdfUrl: pdfFileURL, into: jsonFileURL)
+        
+        // Parse links.
+        if let document = DocumentLinks(from: pdfFileURL)
+        { document.write(to: jsonFileURL) }
+        
+        // Test.
+        // addTestAnnotationToPage(page: pdfDocument.page(at: 0))
+        
         // Write.
-        pdfDocument.write(toFile: pdfFileURL.path)
+        // pdfDocument.write(toFile: pdfFileURL.path)
     }
+    
+    
     
     func listAnnotations(page: PDFPage?)
     {
@@ -58,13 +67,14 @@ class ViewController: NSViewController
         // Checks.
         guard let page = page else { return }
         
-        let squareAnnotation = PDFAnnotation(
-            bounds: CGRect(x: 200, y: 100, width: 100, height: 100),
-            forType: PDFAnnotationSubtype.square,
-            withProperties: nil
+        // Add.
+        page.addAnnotation(
+            PDFAnnotation(
+                bounds: CGRect(x: 200, y: 400, width: 100, height: 100),
+                forType: PDFAnnotationSubtype.link,
+                withProperties: nil
+            ).with(url: URL(string: "http://eppz.eu"))
         )
-        squareAnnotation.color = NSColor.blue
-        page.addAnnotation(squareAnnotation)
     }
 }
 

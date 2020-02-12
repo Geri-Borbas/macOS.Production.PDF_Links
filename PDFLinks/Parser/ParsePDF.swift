@@ -2,8 +2,11 @@
 //  PDFParser.swift
 //  PDFParser
 //
-//  Created by Geri Borbás on 2020. 02. 05.
-//  Copyright © 2020. Geri Borbás. All rights reserved.
+//  Copyright (c) 2020 Geri Borbás http://www.twitter.com/_eppz
+//
+//  Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+//  The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+//  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
 import Foundation
@@ -34,7 +37,10 @@ class PDFParser
     
     struct Message
     {
-        static let couldNotSerializeData = "<COULD_NOT_SERIALIZE_DATA>"
+        static let parentNotSerialized = "<PARENT_NOT_SERIALIZED>"
+        static let couldNotParseValue = "<COULD_NOT_PARSE_VALUE>"
+        static let couldNotGetStreamData = "<COULD_NOT_GET_STREAM_DATA>"
+        static let unknownStreamDataFormat = "<UNKNOWN_STREAM_DATA_FORMAT>"
     }
     
     /// Parse a PDF file into a JSON file.
@@ -149,7 +155,7 @@ class PDFParser
                     var streamDictionary = streamNSMutableDictionary as! [String: Any?]
                     
                     // Get data.
-                    var dataString: String?
+                    var dataString: String? = Message.couldNotGetStreamData
                     var streamDataFormat: CGPDFDataFormat = .raw
                     if let streamData: CFData = CGPDFStreamCopyData(streamRef, &streamDataFormat)
                     {
@@ -157,6 +163,7 @@ class PDFParser
                         {
                             case .raw: dataString = String(data: NSData(data: streamData as Data) as Data, encoding: String.Encoding.utf8)
                             case .jpegEncoded, .JPEG2000: dataString = NSData(data: streamData as Data).base64EncodedString()
+                        @unknown default: dataString = Message.unknownStreamDataFormat
                         }
                     }
                     
@@ -220,7 +227,7 @@ class PDFParser
                 guard eachKey != "Parent"
                 else
                 {
-                    dictionary.setObject("<PARENT_NOT_SERIALIZED>", forKey: eachDictionaryKey)
+                    dictionary.setObject(Message.parentNotSerialized, forKey: eachDictionaryKey)
                     return
                 }
                     
@@ -228,7 +235,7 @@ class PDFParser
                 guard let eachValue = PDFParser.value(from: eachObject)
                 else
                 {
-                    dictionary.setObject("<COULD_NOT_PARSE_VALUE>, \(CGPDFObjectGetType(eachObject).rawValue)", forKey: eachDictionaryKey)
+                    dictionary.setObject(Message.couldNotParseValue, forKey: eachDictionaryKey)
                     fatalError("😭")
                     // return
                 }
