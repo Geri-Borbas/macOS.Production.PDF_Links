@@ -140,7 +140,8 @@ extension PageLinks
                 let x = Double(contents.slice(with: eachMatch.range(withName: "x"))),
                 let y = Double(contents.slice(with: eachMatch.range(withName: "y"))),
                 let width = Double(contents.slice(with: eachMatch.range(withName: "width"))),
-                let height = Double(contents.slice(with: eachMatch.range(withName: "height")))
+                let height = Double(contents.slice(with: eachMatch.range(withName: "height"))),
+                let urlString = try? Self.parseURLString(from: contents.slice(with: eachMatch.range(withName: "link")))
             {
                 // Create and collect link.
                 links.append(
@@ -151,12 +152,36 @@ extension PageLinks
                             width: width,
                             height: height
                         ),
-                        text: contents.slice(with: eachMatch.range(withName: "link"))
+                        urlString: urlString
                     )
                 )
             }
         }
         
+        print(links)
+        
         return links
+    }
+    
+    static func parseURLString(from link: String) throws -> String
+    {
+        // Extract URL text from link text (strip PDF markup).
+        // See https://regex101.com/r/ZDCzwJ/4/
+        let pattern =
+            """
+            ^(\\[\\()|           # '[('
+            ^\\(|                # '('
+            Link\\s|             # 'Link '
+            \\).[^\\)\\(]*?\\(|  # ')...('
+            \\)$|                # ')'
+            \\)\\]$              # ')]'
+            """
+
+        let regex = try NSRegularExpression(
+            pattern: pattern,
+            options: [ .allowCommentsAndWhitespace ])
+        
+        // Replace.
+        return regex.stringByReplacingMatches(in: link, options: [], range: link.entireRange, withTemplate: "")
     }
 }

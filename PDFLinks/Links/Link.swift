@@ -15,7 +15,7 @@ struct Link: Codable
     
     
     let bounds: Rectangle
-    let text: String
+    let urlString: String
     
     
     struct Rectangle: Codable
@@ -34,7 +34,7 @@ extension Link
 {
     
     
-    var url: URL? { URL(string: "http://eppz.eu") }
+    var url: URL? { URL(string: urlString) }
     
     var annotation: PDFAnnotation
     {
