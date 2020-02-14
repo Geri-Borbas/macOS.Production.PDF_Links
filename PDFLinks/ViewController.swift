@@ -28,53 +28,31 @@ class ViewController: NSViewController
         
         // Assemble file name.
         let pdfFileURL = documentsDirectory.appendingPathComponent("Subject").appendingPathExtension("pdf")
-        let jsonFileURL = documentsDirectory.appendingPathComponent("Subject").appendingPathExtension("json")
-     
-        // Load.
-        guard let pdfDocument = PDFDocument(url: pdfFileURL)
-        else { return }
-
-        // Parse PDF into JSON.
-        // PDFParser.parse(pdfUrl: pdfFileURL, into: jsonFileURL)
+        let logFileURL = documentsDirectory.appendingPathComponent("Subject").appendingPathExtension("json")
         
         // Parse links.
-        if let document = DocumentLinks(from: pdfFileURL)
-        { document.write(to: jsonFileURL) }
+        guard let links = DocumentLinks(from: pdfFileURL)
+        else { return }
         
-        // Test.
-        // addTestAnnotationToPage(page: pdfDocument.page(at: 0))
+        // Write log.
+        links.write(to: logFileURL)
+        
+        // Load PDF.
+        guard let pdfDocument = PDFDocument(url: pdfFileURL)
+        else { return }
+        
+        // Add annotations if any.
+        for (eachPageIndex, eachPageLinks) in links.pageLinks.enumerated()
+        {
+            if let eachPage = pdfDocument.page(at: eachPageIndex)
+            {
+                eachPageLinks.links.forEach
+                { eachLink in eachPage.addAnnotation(eachLink.annotation) }
+            }
+        }
         
         // Write.
-        // pdfDocument.write(toFile: pdfFileURL.path)
-    }
-    
-    
-    
-    func listAnnotations(page: PDFPage?)
-    {
-        // Checks.
-        guard let page = page else { return }
-        
-        page.annotations.forEach
-        {
-            eachAnnotation in
-            print(eachAnnotation)
-        }
-    }
-    
-    func addTestAnnotationToPage(page: PDFPage?)
-    {
-        // Checks.
-        guard let page = page else { return }
-        
-        // Add.
-        page.addAnnotation(
-            PDFAnnotation(
-                bounds: CGRect(x: 200, y: 400, width: 100, height: 100),
-                forType: PDFAnnotationSubtype.link,
-                withProperties: nil
-            ).with(url: URL(string: "http://eppz.eu"))
-        )
+        pdfDocument.write(toFile: pdfFileURL.path)
     }
 }
 

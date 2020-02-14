@@ -1,5 +1,10 @@
 # CHANGELOG
 
+* 0.5.0
+
+    + Updated Link parsing
+    + Write parsed link annotations into PDF
+
 * 0.3.0
 
     + Added Regex Link parsing from `Regex.playground`
