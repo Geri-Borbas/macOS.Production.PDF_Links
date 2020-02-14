@@ -80,25 +80,44 @@ extension PageLinks
     static func parseLinks(from contents: String) throws -> [Link]
     {
         // Extract link texts with clipping rectangles.
+        // See https://regex101.com/r/jS8XMl/16
         let pattern =
             """
 
             # Clipping Rectangle (x, y, width, height)
-            (?<x>\\b[-0-9\\.]+\\b)(\\s)
-            (?<y>\\b[-0-9\\.]+\\b)(\\s)
-            (?<width>\\b[-0-9\\.]+\\b)(\\s)
-            (?<height>\\b[-0-9\\.]+\\b)(\\s)
-            (re\\nW)
+            (?<x>\\b[-0-9.]+\\b)\\s
+            (?<y>\\b[-0-9.]+\\b)\\s
+            (?<width>\\b[-0-9.]+\\b)\\s
+            (?<height>\\b[-0-9.]+\\b)\\s
+            re\\nW
 
-            (.*?)
+            # Spacing
+            (?:
+                .   # Any character
+                (?! # Except followed by
+                    # Clipping Rectangle
+                    (\\b[-\\d.]+\\b\\s){4}
+                    re\\nW
+                )
+            )*? # 0 or more times
 
-            # Link Text (text)
-            (BT)
-            (.*?)
-            (Link)
-            (.*?\\n)
-            (?<text>.[^\\n]*?)(TJ\\n|Tj\\n)
-            (ET)
+            # Link
+            BT
+                # Spacing
+                (?:
+                    .      # Any character
+                    (?!ET) # Except followed by 'ET'
+                )*?        # 0 or more times
+            \\n
+                # Link
+                (?<link>
+                    .[^\\n]*? # Any character except new-line 0 or more times
+                    Link      # Containing 'Link'
+                    .*?       # Any character 0 or more times
+                )
+                # Followed by 'TJ' or 'Tj' at the end of the line
+                (?:TJ\\n|Tj\\n)
+            ET
 
             """
 
@@ -132,7 +151,7 @@ extension PageLinks
                             width: width,
                             height: height
                         ),
-                        text: contents.slice(with: eachMatch.range(withName: "text"))
+                        text: contents.slice(with: eachMatch.range(withName: "link"))
                     )
                 )
             }
