@@ -10,17 +10,22 @@ import Cocoa
 import PDFKit
 
 
-class ViewController: NSViewController
+class ViewController: NSViewController, DragViewDelegate
 {
 
     
     override func viewDidLoad()
     {
         super.viewDidLoad()
-        processPDF()
+    }
+    
+    func dragViewDidReceive(fileURLs: [URL])
+    {
+        if let firstPdfFileURL = fileURLs.first
+        { print(firstPdfFileURL) }
     }
 
-    func processPDF()
+    func processPDF(pdfURL: URL )
     {
         // Resolve Documents directory.
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first

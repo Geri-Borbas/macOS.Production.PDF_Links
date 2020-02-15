@@ -1,5 +1,9 @@
 # CHANGELOG
 
+* Feature/UI/Dragging/0.0.1
+
+    + Added `DragView` to receive dragged PDFs
+
 * 0.5.0
 
     + Updated Link parsing

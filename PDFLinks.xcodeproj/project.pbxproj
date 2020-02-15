@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		55240A3C23F89CBE00159CD5 /* DragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55240A3B23F89CBE00159CD5 /* DragView.swift */; };
 		55AD49E023F246FF00E1D035 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49DF23F246FF00E1D035 /* Link.swift */; };
 		55AD49E223F2482E00E1D035 /* PDFAnnotation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */; };
 		55AD49E423F249B400E1D035 /* PageLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E323F249B400E1D035 /* PageLinks.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		551F807E23EB4A3B0085DE1A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		55240A3B23F89CBE00159CD5 /* DragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragView.swift; sourceTree = "<group>"; };
 		55AD49DF23F246FF00E1D035 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFAnnotation+Extensions.swift"; sourceTree = "<group>"; };
 		55AD49E323F249B400E1D035 /* PageLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLinks.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				55B26ACB23EA64A00061821E /* AppDelegate.swift */,
 				55B26ACD23EA64A00061821E /* ViewController.swift */,
+				55240A3B23F89CBE00159CD5 /* DragView.swift */,
 				55AD49EB23F2533D00E1D035 /* Parser */,
 				55AD49E523F249FE00E1D035 /* Links */,
 				55AD49E823F24C1000E1D035 /* Extensions */,
@@ -182,6 +185,7 @@
 				55B26ADC23EA74F80061821E /* ParsePDF.swift in Sources */,
 				55AD49EA23F24C1F00E1D035 /* String+Extensions.swift in Sources */,
 				55B26ACC23EA64A00061821E /* AppDelegate.swift in Sources */,
+				55240A3C23F89CBE00159CD5 /* DragView.swift in Sources */,
 				55AD49E423F249B400E1D035 /* PageLinks.swift in Sources */,
 				55AD49E023F246FF00E1D035 /* Link.swift in Sources */,
 				55AD49E223F2482E00E1D035 /* PDFAnnotation+Extensions.swift in Sources */,
