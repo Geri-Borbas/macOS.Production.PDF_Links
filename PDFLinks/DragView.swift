@@ -28,7 +28,7 @@ class DragView: NSView
     required init?(coder: NSCoder)
     {
         super.init(coder: coder)
-        color(to: .gray)
+        color(to: .clear)
         registerForDraggedTypes([.fileURL])
     }
 
@@ -48,10 +48,10 @@ class DragView: NSView
         switch (containsMatchingFiles)
         {
             case true:
-                color(to: .green)
+                color(to: .secondaryLabelColor)
                 return .copy
             case false:
-                color(to: .red)
+                color(to: .disabledControlTextColor)
                 return .init()
         }
     }
@@ -79,10 +79,10 @@ class DragView: NSView
     }
     
     override func draggingExited(_ sender: NSDraggingInfo?)
-    { color(to: .gray) }
+    { color(to: .clear) }
 
     override func draggingEnded(_ sender: NSDraggingInfo)
-    { color(to: .gray) }
+    { color(to: .clear) }
     
 }
 

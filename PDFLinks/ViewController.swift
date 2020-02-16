@@ -14,33 +14,37 @@ class ViewController: NSViewController, DragViewDelegate
 {
 
     
-    override func viewDidLoad()
-    {
-        super.viewDidLoad()
-    }
+    // UI.
+    @IBOutlet weak var statusLabel: NSTextField!
     
+   
     func dragViewDidReceive(fileURLs: [URL])
     {
         if let firstPdfFileURL = fileURLs.first
-        { print(firstPdfFileURL) }
+        { processPDF(pdfFileURL: firstPdfFileURL) }
     }
 
-    func processPDF(pdfURL: URL )
+    func processPDF(pdfFileURL: URL)
     {
-        // Resolve Documents directory.
-        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
-        else { return }
+        print("processPDF: \(pdfFileURL)")
         
-        // Assemble file name.
-        let pdfFileURL = documentsDirectory.appendingPathComponent("Subject").appendingPathExtension("pdf")
-        let logFileURL = documentsDirectory.appendingPathComponent("Subject").appendingPathExtension("json")
+        // Assemble file names.
+        let fileURL = pdfFileURL
+        let folder = fileURL.deletingLastPathComponent()
+        let fileName = fileURL.deletingPathExtension().lastPathComponent
+        let outputPdfFileURL = fileURL.deletingLastPathComponent()
+            .appendingPathComponent(fileName.appending(" (with links)"))
+            .appendingPathExtension(pdfFileURL.pathExtension)
+        let logJsonFileURL = folder
+            .appendingPathComponent(fileName.appending(" (log)"))
+            .appendingPathExtension("json")
         
         // Parse links.
         guard let links = DocumentLinks(from: pdfFileURL)
         else { return }
         
         // Write log.
-        links.write(to: logFileURL)
+        links.write(to: logJsonFileURL)
         
         // Load PDF.
         guard let pdfDocument = PDFDocument(url: pdfFileURL)
@@ -57,7 +61,6 @@ class ViewController: NSViewController, DragViewDelegate
         }
         
         // Write.
-        pdfDocument.write(toFile: pdfFileURL.path)
+        pdfDocument.write(toFile: outputPdfFileURL.path)
     }
 }
-
