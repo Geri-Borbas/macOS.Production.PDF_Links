@@ -25,17 +25,17 @@ class ViewController: NSViewController, DragViewDelegate
     }
 
     func processPDF(pdfFileURL: URL)
-    {
-        print("processPDF: \(pdfFileURL)")
+    {        
+        // Resolve Documents directory.
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
+        else { return }
         
         // Assemble file names.
-        let fileURL = pdfFileURL
-        let folder = fileURL.deletingLastPathComponent()
-        let fileName = fileURL.deletingPathExtension().lastPathComponent
-        let outputPdfFileURL = fileURL.deletingLastPathComponent()
+        let fileName = pdfFileURL.deletingPathExtension().lastPathComponent
+        let outputPdfFileURL = documentsDirectory
             .appendingPathComponent(fileName.appending(" (with links)"))
             .appendingPathExtension(pdfFileURL.pathExtension)
-        let logJsonFileURL = folder
+        let logJsonFileURL = documentsDirectory
             .appendingPathComponent(fileName.appending(" (log)"))
             .appendingPathExtension("json")
         
@@ -62,5 +62,8 @@ class ViewController: NSViewController, DragViewDelegate
         
         // Write.
         pdfDocument.write(toFile: outputPdfFileURL.path)
+        
+        // Pop up folder.
+        NSWorkspace.shared.activateFileViewerSelecting([outputPdfFileURL, logJsonFileURL])
     }
 }

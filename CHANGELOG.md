@@ -1,5 +1,9 @@
 # CHANGELOG
 
+* 0.6.0
+
+    + Output files to application `Documents` folder
+
 * Feature/UI/Dragging/0.0.2
 
     + Process dragged PDF

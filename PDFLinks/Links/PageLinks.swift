@@ -133,8 +133,10 @@ extension PageLinks
 
         // Enumerate matches.
         var links: [Link] = []
-        for (eachMatchIndex, eachMatch) in matches.enumerated()
+        matches.forEach
         {
+            eachMatch in
+            
             // Get values from match.
             if
                 let x = Double(contents.slice(with: eachMatch.range(withName: "x"))),
@@ -157,8 +159,6 @@ extension PageLinks
                 )
             }
         }
-        
-        print(links)
         
         return links
     }
