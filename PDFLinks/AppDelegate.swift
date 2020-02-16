@@ -8,19 +8,16 @@
 
 import Cocoa
 
+
 @NSApplicationMain
-class AppDelegate: NSObject, NSApplicationDelegate {
-
-
-
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        // Insert code here to initialize your application
+class AppDelegate: NSObject, NSApplicationDelegate
+{
+    
+    
+    @IBAction func helpClicked(_ sender: Any?)
+    {
+        if let url = URL(string: "https://github.com/eppz/macOS.Production.PDF_Links")
+        { NSWorkspace.shared.open(url) }
     }
-
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
-    }
-
-
 }
 

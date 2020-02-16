@@ -1,5 +1,10 @@
 # CHANGELOG
 
+* 0.6.1
+
+    + Added `README.md`
+    + Hooked up help menu
+
 * 0.6.0
 
     + Output files to application `Documents` folder
