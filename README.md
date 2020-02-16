@@ -1,4 +1,4 @@
-# `PDF` Links
+# 📄 `PDF` Links
 
 **Tiny tool helps creating PDF links in Adobe Illustrator.**
 

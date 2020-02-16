@@ -1,5 +1,15 @@
 # CHANGELOG
 
+* Doing
+
+    + UX
+        + Status label updates
+        + Icon
+        + Simple `dmg` distribution
+    + `README.md`
+        + Images to `Usage`
+        + `How it works`
+
 * 0.6.1
 
     + Added `README.md`
