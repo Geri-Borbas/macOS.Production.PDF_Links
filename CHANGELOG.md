@@ -7,8 +7,11 @@
         + Icon
         + Simple `dmg` distribution
     + `README.md`
-        + Images to `Usage`
         + `How it works`
+
+* 0.6.11
+
+    + Updated `README.md`
 
 * 0.6.1
 

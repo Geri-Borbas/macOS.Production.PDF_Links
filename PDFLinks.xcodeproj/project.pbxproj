@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		5514664B23F9CA9C00B86054 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 5514664A23F9CA9C00B86054 /* README.md */; };
 		55240A3C23F89CBE00159CD5 /* DragView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55240A3B23F89CBE00159CD5 /* DragView.swift */; };
+		5550039423FB757C0093AF52 /* PDF_Links_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 5550038F23FB757C0093AF52 /* PDF_Links_2.png */; };
+		5550039523FB757C0093AF52 /* PDF_Links_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 5550039023FB757C0093AF52 /* PDF_Links_1.png */; };
+		5550039623FB757C0093AF52 /* PDF_Links_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 5550039123FB757C0093AF52 /* PDF_Links_5.png */; };
+		5550039B23FB77940093AF52 /* PDF_Links_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 5550039923FB77940093AF52 /* PDF_Links_6.png */; };
+		5550039C23FB77940093AF52 /* PDF_Links_7.png in Resources */ = {isa = PBXBuildFile; fileRef = 5550039A23FB77940093AF52 /* PDF_Links_7.png */; };
 		55AD49E023F246FF00E1D035 /* Link.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49DF23F246FF00E1D035 /* Link.swift */; };
 		55AD49E223F2482E00E1D035 /* PDFAnnotation+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */; };
 		55AD49E423F249B400E1D035 /* PageLinks.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55AD49E323F249B400E1D035 /* PageLinks.swift */; };
@@ -25,6 +30,11 @@
 		5514664A23F9CA9C00B86054 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		551F807E23EB4A3B0085DE1A /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
 		55240A3B23F89CBE00159CD5 /* DragView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DragView.swift; sourceTree = "<group>"; };
+		5550038F23FB757C0093AF52 /* PDF_Links_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDF_Links_2.png; sourceTree = "<group>"; };
+		5550039023FB757C0093AF52 /* PDF_Links_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDF_Links_1.png; sourceTree = "<group>"; };
+		5550039123FB757C0093AF52 /* PDF_Links_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDF_Links_5.png; sourceTree = "<group>"; };
+		5550039923FB77940093AF52 /* PDF_Links_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDF_Links_6.png; sourceTree = "<group>"; };
+		5550039A23FB77940093AF52 /* PDF_Links_7.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PDF_Links_7.png; sourceTree = "<group>"; };
 		55AD49DF23F246FF00E1D035 /* Link.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Link.swift; sourceTree = "<group>"; };
 		55AD49E123F2482E00E1D035 /* PDFAnnotation+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PDFAnnotation+Extensions.swift"; sourceTree = "<group>"; };
 		55AD49E323F249B400E1D035 /* PageLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLinks.swift; sourceTree = "<group>"; };
@@ -51,6 +61,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5550038E23FB757C0093AF52 /* Documentation */ = {
+			isa = PBXGroup;
+			children = (
+				5550038F23FB757C0093AF52 /* PDF_Links_2.png */,
+				5550039023FB757C0093AF52 /* PDF_Links_1.png */,
+				5550039123FB757C0093AF52 /* PDF_Links_5.png */,
+				5550039923FB77940093AF52 /* PDF_Links_6.png */,
+				5550039A23FB77940093AF52 /* PDF_Links_7.png */,
+			);
+			path = Documentation;
+			sourceTree = "<group>";
+		};
 		55AD49E523F249FE00E1D035 /* Links */ = {
 			isa = PBXGroup;
 			children = (
@@ -83,6 +105,7 @@
 			children = (
 				5514664A23F9CA9C00B86054 /* README.md */,
 				551F807E23EB4A3B0085DE1A /* CHANGELOG.md */,
+				5550038E23FB757C0093AF52 /* Documentation */,
 				55B26ACA23EA64A00061821E /* PDFLinks */,
 				55B26AC923EA64A00061821E /* Products */,
 			);
@@ -171,7 +194,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5550039623FB757C0093AF52 /* PDF_Links_5.png in Resources */,
 				5514664B23F9CA9C00B86054 /* README.md in Resources */,
+				5550039C23FB77940093AF52 /* PDF_Links_7.png in Resources */,
+				5550039423FB757C0093AF52 /* PDF_Links_2.png in Resources */,
+				5550039523FB757C0093AF52 /* PDF_Links_1.png in Resources */,
+				5550039B23FB77940093AF52 /* PDF_Links_6.png in Resources */,
 				55B26AD023EA64A50061821E /* Assets.xcassets in Resources */,
 				55B26AD323EA64A50061821E /* Main.storyboard in Resources */,
 			);
