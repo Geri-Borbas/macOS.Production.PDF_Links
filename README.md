@@ -1,6 +1,7 @@
 # 📄 `PDF` Links
 
-A convinient way to create / layout / maintain PDF link annotations right in Adobe Illustrator.
+**A convinient way to create / layout / maintain PDF link annotations right in Adobe Illustrator.** When designing a document, I found it pretty cumbersome to create / update link annotations in external apps, so after some research on [Apple PDFKit](https://developer.apple.com/documentation/pdfkit) I created this tool.
+
 
 ## Usage
 
@@ -25,6 +26,7 @@ Enjoy linked PDF.
 <img src="Documentation/PDF_Links_6.png" width="640">
 
 <img src="Documentation/PDF_Links_7.png" width="640">
+
 
 
 ## License
