@@ -15,8 +15,9 @@ A convinient way to create / layout / maintain PDF link annotations right in Ado
 5. Launch PDF Links, drag PDF into.
     <img src="Documentation/PDF_Links_5.png" width="640">
 6. Enjoy linked PDF.
-    <img src="Documentation/PDF_Links_7.png" width="640">	
     <img src="Documentation/PDF_Links_6.png" width="640">
+> I left the debug JSON log there for easier troubleshooting if any.
+    <img src="Documentation/PDF_Links_7.png" width="640">
 
 
 ## License
