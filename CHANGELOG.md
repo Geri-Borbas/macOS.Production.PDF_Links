@@ -3,11 +3,8 @@
 * Doing
 
     + UX
-        + Status label updates
         + Icon
         + Simple `dmg` distribution
-    + `README.md`
-        + `How it works`
 
 * 0.6.11
 
