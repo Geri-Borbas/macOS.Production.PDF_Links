@@ -40,7 +40,7 @@
 		55AD49E323F249B400E1D035 /* PageLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageLinks.swift; sourceTree = "<group>"; };
 		55AD49E623F24A5C00E1D035 /* DocumentLinks.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentLinks.swift; sourceTree = "<group>"; };
 		55AD49E923F24C1F00E1D035 /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
-		55B26AC823EA64A00061821E /* PDFLinks.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFLinks.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		55B26AC823EA64A00061821E /* PDF Links.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PDF Links.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		55B26ACB23EA64A00061821E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		55B26ACD23EA64A00061821E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		55B26ACF23EA64A50061821E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		55B26AC923EA64A00061821E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				55B26AC823EA64A00061821E /* PDFLinks.app */,
+				55B26AC823EA64A00061821E /* PDF Links.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -139,9 +139,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		55B26AC723EA64A00061821E /* PDFLinks */ = {
+		55B26AC723EA64A00061821E /* PDF Links */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 55B26AD823EA64A60061821E /* Build configuration list for PBXNativeTarget "PDFLinks" */;
+			buildConfigurationList = 55B26AD823EA64A60061821E /* Build configuration list for PBXNativeTarget "PDF Links" */;
 			buildPhases = (
 				55B26AC423EA64A00061821E /* Sources */,
 				55B26AC523EA64A00061821E /* Frameworks */,
@@ -151,9 +151,9 @@
 			);
 			dependencies = (
 			);
-			name = PDFLinks;
+			name = "PDF Links";
 			productName = PDFLinks;
-			productReference = 55B26AC823EA64A00061821E /* PDFLinks.app */;
+			productReference = 55B26AC823EA64A00061821E /* PDF Links.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -184,7 +184,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				55B26AC723EA64A00061821E /* PDFLinks */,
+				55B26AC723EA64A00061821E /* PDF Links */,
 			);
 		};
 /* End PBXProject section */
@@ -365,6 +365,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 0.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eppz.PDFLinks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -385,6 +386,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MARKETING_VERSION = 0.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.eppz.PDFLinks;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -403,7 +405,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		55B26AD823EA64A60061821E /* Build configuration list for PBXNativeTarget "PDFLinks" */ = {
+		55B26AD823EA64A60061821E /* Build configuration list for PBXNativeTarget "PDF Links" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				55B26AD923EA64A60061821E /* Debug */,

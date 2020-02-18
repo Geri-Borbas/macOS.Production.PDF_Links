@@ -1,9 +1,8 @@
 # CHANGELOG
 
-* Doing
+* 0.6.5 / `Release_0.6.5`
 
-    + UX
-        + Simple `dmg` distribution
+    + Initial release
 
 * 0.6.3
 
