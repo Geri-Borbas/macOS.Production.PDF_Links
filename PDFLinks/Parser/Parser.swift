@@ -13,7 +13,7 @@ import Foundation
 import PDFKit
 
 
-class PDFParser
+class Parser
 {
 
     
@@ -48,7 +48,7 @@ class PDFParser
     {
         do
         {
-            let pdf = PDFParser.parse(pdfUrl: pdfUrl)
+            let pdf = Parser.parse(pdfUrl: pdfUrl)
             let data = try JSONSerialization.data(withJSONObject: pdf, options: .prettyPrinted)
             try data.write(to: jsonURL, options: [])
         }
@@ -72,8 +72,8 @@ class PDFParser
         
         // Parse.
         return [
-            "Catalog" : PDFParser.value(from: catalog),
-            "Info" : PDFParser.value(from: info)
+            "Catalog" : Parser.value(from: catalog),
+            "Info" : Parser.value(from: info)
         ]
     }
     
@@ -135,7 +135,7 @@ class PDFParser
                         if
                             CGPDFArrayGetObject(arrayRef, index, &eachObjectRef),
                             let eachObject = eachObjectRef,
-                            let eachValue = PDFParser.value(from: eachObject)
+                            let eachValue = Parser.value(from: eachObject)
                         { array.append(eachValue) }
                     }
                     return array
@@ -217,7 +217,7 @@ class PDFParser
                 else { return print("Could not unwrap key.") }
                 
                 // Type.
-                guard let eachTypeName = PDFParser.namesForTypes[CGPDFObjectGetType(eachObject)]
+                guard let eachTypeName = Parser.namesForTypes[CGPDFObjectGetType(eachObject)]
                 else { return print("Could not unwrap type.") }
                 
                 // Assemble.
@@ -232,7 +232,7 @@ class PDFParser
                 }
                     
                 // Parse value.
-                guard let eachValue = PDFParser.value(from: eachObject)
+                guard let eachValue = Parser.value(from: eachObject)
                 else
                 {
                     dictionary.setObject(Message.couldNotParseValue, forKey: eachDictionaryKey)

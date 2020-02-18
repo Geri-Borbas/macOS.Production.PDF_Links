@@ -23,7 +23,7 @@
 		55B26ACE23EA64A00061821E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B26ACD23EA64A00061821E /* ViewController.swift */; };
 		55B26AD023EA64A50061821E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 55B26ACF23EA64A50061821E /* Assets.xcassets */; };
 		55B26AD323EA64A50061821E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 55B26AD123EA64A50061821E /* Main.storyboard */; };
-		55B26ADC23EA74F80061821E /* ParsePDF.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B26ADB23EA74F80061821E /* ParsePDF.swift */; };
+		55B26ADC23EA74F80061821E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55B26ADB23EA74F80061821E /* Parser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,7 +47,7 @@
 		55B26AD223EA64A50061821E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		55B26AD423EA64A50061821E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		55B26AD523EA64A60061821E /* PDFLinks.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PDFLinks.entitlements; sourceTree = "<group>"; };
-		55B26ADB23EA74F80061821E /* ParsePDF.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePDF.swift; sourceTree = "<group>"; };
+		55B26ADB23EA74F80061821E /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -95,7 +95,7 @@
 		55AD49EB23F2533D00E1D035 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				55B26ADB23EA74F80061821E /* ParsePDF.swift */,
+				55B26ADB23EA74F80061821E /* Parser.swift */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -214,7 +214,7 @@
 			files = (
 				55AD49E723F24A5C00E1D035 /* DocumentLinks.swift in Sources */,
 				55B26ACE23EA64A00061821E /* ViewController.swift in Sources */,
-				55B26ADC23EA74F80061821E /* ParsePDF.swift in Sources */,
+				55B26ADC23EA74F80061821E /* Parser.swift in Sources */,
 				55AD49EA23F24C1F00E1D035 /* String+Extensions.swift in Sources */,
 				55B26ACC23EA64A00061821E /* AppDelegate.swift in Sources */,
 				55240A3C23F89CBE00159CD5 /* DragView.swift in Sources */,
