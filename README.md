@@ -234,7 +234,7 @@ It parses the graphic content into nicely usable Swift Codable structs. See [**`
 ...
 ```
 
-To create `PDFKit.PDFAnnotation`, the same coordinate system can be used. Having that, a parsed `Link` can be directly converted into a `PDFKit.PDFAnnotation`. Those can be added to a PDF page easily with `PDFKit.PDFPage.addAnnotation(_:)`.
+To create [`PDFKit.PDFAnnotation`](https://developer.apple.com/documentation/pdfkit/pdfannotation), the same coordinate system can be used. Having that, a parsed `Link` can be directly converted into a [`PDFKit.PDFAnnotation`](https://developer.apple.com/documentation/pdfkit/pdfannotation). Those can be added to a PDF page easily with [`PDFKit.PDFPage.addAnnotation(_:)`](https://developer.apple.com/documentation/pdfkit/pdfpage/1504910-addannotation).
 
 ```Swift
 extension Link
