@@ -11,11 +11,11 @@ Create a layer for the links (that you can hide later on).
 Create a text starting with **"Link "** followed by the actual url.
 
 Wrap into a clipping rectangle to define link hotspot.
-> I also created a background box for convenience.
+
+Hide layer containing the links before export PDF.
 
 <img src="Documentation/PDF_Links_2.png" width="640">
 
-Hide layer containing the links.
 Launch PDF Links, drag PDF into.
 
 <img src="Documentation/PDF_Links_5.png" width="640">
@@ -23,8 +23,6 @@ Launch PDF Links, drag PDF into.
 Enjoy linked PDF.
 
 <img src="Documentation/PDF_Links_6.png" width="640">
-
-> I left the debug JSON log there for easier troubleshooting if any.
 
 <img src="Documentation/PDF_Links_7.png" width="640">
 
