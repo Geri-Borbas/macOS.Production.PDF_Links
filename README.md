@@ -13,6 +13,7 @@ Create a layer for the links (that you can hide later on).
 Create a text starting with **"Link "** followed by the actual url.
 
 Wrap into a clipping rectangle to define link hotspot.
+> I also created a background box for convenience.
 
 ![](Documentation/PDF_Links_2.png)
 
