@@ -8,17 +8,16 @@ A convinient way to create / layout / maintain PDF link annotations right in Ado
 
 Create a layer for the links (that you can hide later on).
 ![](Documentation/PDF_Links_1.png)
-<img src="" width="640">
 Create a text starting with **"Link "** followed by the actual url.
 Wrap into a clipping rectangle to define link hotspot.
-<img src="Documentation/PDF_Links_2.png" width="640">
+![](Documentation/PDF_Links_2.png)
 Turn off layer containing the links.
 Launch PDF Links, drag PDF into.
-<img src="Documentation/PDF_Links_5.png" width="640">
+![](Documentation/PDF_Links_5.png)
 Enjoy linked PDF.
-<img src="Documentation/PDF_Links_6.png" width="640">
+![](Documentation/PDF_Links_6.png)
 > I left the debug JSON log there for easier troubleshooting if any.
-<img src="Documentation/PDF_Links_7.png" width="640">
+![](Documentation/PDF_Links_7.png)
 
 
 ## License
