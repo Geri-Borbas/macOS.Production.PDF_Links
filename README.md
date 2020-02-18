@@ -30,6 +30,10 @@ Enjoy linked PDF.
 <img src="Documentation/PDF_Links_7.png" width="640">
 
 
+## Install
+
+An installer is packaged at [`PDF_Links.dmg`](https://github.com/eppz/macOS.Production.PDF_Links/releases/download/Release_0.6.5/PDF_Links.dmg).
+
 
 ## License
 
