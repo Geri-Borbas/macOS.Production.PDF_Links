@@ -1,6 +1,6 @@
 # 📄 `PDF` Links
 
-**A convinient way to create / layout / maintain PDF link annotations right in Adobe Illustrator.** 
+**A convinient way to create / layout / maintain PDF link annotations in Adobe Illustrator.** 
 
 ## Motivation
 
