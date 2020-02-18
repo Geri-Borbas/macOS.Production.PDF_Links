@@ -53,7 +53,7 @@ let pdf: [String:Any?] = PDFParser.parse(pdfUrl: pdfFileURL)
 
 The resulting JSON gives you the entire PDF content (with type information in angle brackets). 
 
-```JSON
+```
 {
   "Catalog" : {
     "Pages<Dictionary>" : {
@@ -160,7 +160,7 @@ ET
 
 It is somewhat human readable, seemingly designed to direct draw using the operators. In this project I used the regex below to parse link text data with the bounds of the corresponding clipping rectangles. See the [**expression on Regex101**](https://regex101.com/r/jS8XMl/16) for more.
 
-```Regular Expression
+```Regex
 # Clipping Rectangle (x, y, width, height)
 (?<x>\b[-0-9.]+\b)\s
 (?<y>\b[-0-9.]+\b)\s
@@ -199,7 +199,7 @@ ET
 
 It parses the graphic content into nicely usable Swift Codable structs. See [**`PageLinks.parseLinks(from contents:)`**](https://github.com/eppz/macOS.Production.PDF_Links/blob/master/PDFLinks/Links/PageLinks.swift#L80) for more. After parsing it can be encoded into JSON easily.
 
-```JSON
+```
 {
 "pages" : [
   {
