@@ -3,10 +3,13 @@
 * Doing
 
     + UX
-        + Icon
         + Simple `dmg` distribution
 
-* 0.6.11
+* 0.6.3
+
+    + Icon
+
+* 0.6.11 - 0.6.24
 
     + Updated `README.md`
 
