@@ -1,5 +1,10 @@
 # CHANGELOG
 
+* 0.6.8
+
+    + Added `Options`
+        + Link urls can be suffixed (yet undocumented)
+
 * 0.6.5 / `Release_0.6.5`
 
     + Initial release
