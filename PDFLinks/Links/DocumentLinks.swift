@@ -37,13 +37,27 @@ extension DocumentLinks
             print("Cannot open PDF.")
             return nil
         }
+        
+        // Lookup options file (if any).
+        var options: Options?
+        let optionsJsonUrl = pdfUrl.deletingPathExtension().appendingPathExtension("json")
+        if FileManager.default.fileExists(atPath: optionsJsonUrl.path)
+        {
+            do
+            {
+                let data = try Data(contentsOf: optionsJsonUrl)
+                options = try JSONDecoder().decode(Options.self, from: data)
+            }
+            catch
+            { print(error) }
+        }
             
         // Process each page.
         var pageLinks: [PageLinks] = []
         (0...document.numberOfPages).forEach
         {
             eachPageIndex in
-            if let eachPageLinks = PageLinks(from: document.page(at: eachPageIndex))
+            if let eachPageLinks = PageLinks(from: document.page(at: eachPageIndex), options: options)
             { pageLinks.append(eachPageLinks) }
         }
         
