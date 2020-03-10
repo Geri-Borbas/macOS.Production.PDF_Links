@@ -25,7 +25,7 @@ extension PageLinks
     /// Parse any links from the root `Content` stream of the page.
     /// Note that if PDF file is altered, objects moved outside
     /// from the root `Content` stream won't be parsed.
-    init?(from pageRef: CGPDFPage?)
+    init?(from pageRef: CGPDFPage?, options: Options? = nil)
     {
         // Get content.
         guard let contents = PageLinks.contents(from: pageRef)
@@ -35,7 +35,7 @@ extension PageLinks
         self.contents = contents
         
         // Parse links.
-        guard let links = try? PageLinks.parseLinks(from: contents)
+        guard let links = try? PageLinks.parseLinks(from: contents, options: options)
         else { return nil }
         
         // Set.
@@ -77,7 +77,7 @@ extension PageLinks
 {
     
     
-    static func parseLinks(from contents: String) throws -> [Link]
+    static func parseLinks(from contents: String, options: Options? = nil) throws -> [Link]
     {
         // Extract link texts with clipping rectangles.
         // See https://regex101.com/r/jS8XMl/16
@@ -154,7 +154,7 @@ extension PageLinks
                             width: width,
                             height: height
                         ),
-                        urlString: urlString
+                        urlString: urlString.applying(options: options)
                     )
                 )
             }
